@@ -19,7 +19,7 @@ class Extractor
         return new Extractor();
     }
 
-    public function extract(string $string): ?string
+    public function extractIdentifierString(string $string): ?string
     {
         if (!$this->handles($string)) {
             return null;
