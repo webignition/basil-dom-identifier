@@ -32,7 +32,8 @@
         ]
     },
     "require": {
-        "php": ">=7.2"
+        "php": ">=7.2",
+        "webignition/php-dom-element-locator": ">=0.2,<1"
     },
     "require-dev": {
         "phpunit/phpunit": "~8.0",

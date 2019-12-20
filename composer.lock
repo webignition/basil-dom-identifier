@@ -4,8 +4,51 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d593e5e5ff61001ce832eefd57691e69",
-    "packages": [],
+    "content-hash": "01ea74beb7ef72ac420bec8a55324791",
+    "packages": [
+        {
+            "name": "webignition/php-dom-element-locator",
+            "version": "0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/webignition/php-dom-element-locator.git",
+                "reference": "5f86d51d0a40fc7e8817d229adfbd33106010a63"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/webignition/php-dom-element-locator/zipball/5f86d51d0a40fc7e8817d229adfbd33106010a63",
+                "reference": "5f86d51d0a40fc7e8817d229adfbd33106010a63",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.2"
+            },
+            "require-dev": {
+                "phpstan/phpstan": "^0.12",
+                "phpunit/phpunit": "~8.0",
+                "squizlabs/php_codesniffer": "3.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "webignition\\DomElementLocator\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jon Cram",
+                    "email": "webignition@gmail.com"
+                }
+            ],
+            "description": "Model for identifying the location of an element within a DOM",
+            "homepage": "https://github.com/webignition/php-dom-element-locator",
+            "time": "2019-12-18T15:59:38+00:00"
+        }
+    ],
     "packages-dev": [
         {
             "name": "doctrine/instantiator",
