@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace webignition\BasilDomIdentifier;
+namespace webignition\BasilDomIdentifier\Extractor;
 
 class DescendantExtractor
 {
