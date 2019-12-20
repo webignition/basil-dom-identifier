@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace webignition\BasilDomIdentifier\Tests\Unit;
+namespace webignition\BasilDomIdentifier\Tests\Unit\Extractor;
 
-use webignition\BasilDomIdentifier\Extractor;
+use webignition\BasilDomIdentifier\Extractor\Extractor;
 use webignition\BasilDomIdentifier\Tests\DataProvider\IdentifierStringDataProviderTrait;
 
 class ExtractorTest extends \PHPUnit\Framework\TestCase
@@ -12,7 +12,7 @@ class ExtractorTest extends \PHPUnit\Framework\TestCase
     use IdentifierStringDataProviderTrait;
 
     /**
-     * @var Extractor
+     * @var \webignition\BasilDomIdentifier\Extractor\Extractor
      */
     private $extractor;
 

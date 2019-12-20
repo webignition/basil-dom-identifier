@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace webignition\BasilDomIdentifier\Tests\Unit;
+namespace webignition\BasilDomIdentifier\Tests\Unit\Extractor;
 
-use webignition\BasilDomIdentifier\DescendantExtractor;
+use webignition\BasilDomIdentifier\Extractor\DescendantExtractor;
 use webignition\BasilDomIdentifier\Tests\DataProvider\DescendantIdentifierStringDataProviderTrait;
 
 class DescendantExtractorTest extends \PHPUnit\Framework\TestCase
@@ -12,7 +12,7 @@ class DescendantExtractorTest extends \PHPUnit\Framework\TestCase
     use DescendantIdentifierStringDataProviderTrait;
 
     /**
-     * @var DescendantExtractor
+     * @var \webignition\BasilDomIdentifier\Extractor\DescendantExtractor
      */
     private $extractor;
 
