@@ -7,7 +7,7 @@ namespace webignition\BasilDomIdentifier\Tests\Unit;
 use webignition\BasilDomIdentifier\DescendantExtractor;
 use webignition\BasilDomIdentifier\Tests\DataProvider\DescendantIdentifierStringDataProviderTrait;
 
-class DescendantPageElementIdentifierExtractorTest extends \PHPUnit\Framework\TestCase
+class DescendantExtractorTest extends \PHPUnit\Framework\TestCase
 {
     use DescendantIdentifierStringDataProviderTrait;
 
