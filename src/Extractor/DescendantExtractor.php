@@ -27,21 +27,16 @@ class DescendantExtractor
     public function extract(string $string): ?string
     {
         $parentIdentifier = $this->extractParentIdentifier($string);
-
         if (null === $parentIdentifier) {
             return null;
         }
 
-        $parentReference = '{{ ' . $parentIdentifier . ' }}';
-
-        $childReferencePart = mb_substr($string, mb_strlen($parentReference) + 1);
-        $childReference = $this->pageElementIdentifierExtractor->extractIdentifierString($childReferencePart);
-
-        if (null === $childReference) {
+        $childIdentifier = $this->extractChildIdentifier($string);
+        if (null === $childIdentifier) {
             return null;
         }
 
-        return $parentReference . ' ' . $childReference;
+        return '{{ ' . $parentIdentifier . ' }}' . ' ' . $childIdentifier;
     }
 
     public function extractParentIdentifier(string $string): ?string
@@ -65,9 +60,29 @@ class DescendantExtractor
         return $parentReferenceIdentifier;
     }
 
+    public function extractChildIdentifier(string $string): ?string
+    {
+        $parentIdentifier = $this->extractParentIdentifier($string);
+
+        if (null === $parentIdentifier) {
+            return null;
+        }
+
+        $parentReference = '{{ ' . $parentIdentifier . ' }}';
+
+        $childReference = mb_substr($string, mb_strlen($parentReference) + 1);
+        $childIdentifier = $this->pageElementIdentifierExtractor->extractIdentifierString($childReference);
+
+        if (null === $childIdentifier) {
+            return null;
+        }
+
+        return $childIdentifier;
+    }
+
     private function isParentReference(string $string): bool
     {
-        if (null !== $this->extract($string)) {
+        if (null !== $this->extractParentIdentifier($string)) {
             return true;
         }
 

@@ -97,11 +97,11 @@ class DescendantExtractorTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider extractParentIdentifierDataProvider
      */
-    public function testExtractParentIdentifierReturnsString(string $string, string $expectedIdentifierString)
+    public function testExtractParentIdentifierReturnsString(string $string, string $expectedParentIdentifier)
     {
         $identifierString = $this->extractor->extractParentIdentifier($string);
 
-        $this->assertSame($expectedIdentifierString, $identifierString);
+        $this->assertSame($expectedParentIdentifier, $identifierString);
     }
 
     public function extractParentIdentifierDataProvider(): array
@@ -109,16 +109,76 @@ class DescendantExtractorTest extends \PHPUnit\Framework\TestCase
         return [
             'direct descendant' => [
                 'string' => '{{ $".parent" }} $".child"',
-                'expectedParentReference' => '$".parent"',
+                'expectedParentIdentifier' => '$".parent"',
             ],
             'indirect descendant' => [
                 'string' => '{{ {{ $".inner-parent" }} $".inner-child" }} $".child"',
-                'expectedParentReference' => '{{ $".inner-parent" }} $".inner-child"',
+                'expectedParentIdentifier' => '{{ $".inner-parent" }} $".inner-child"',
             ],
             'indirectly indirect descendant' => [
                 'string' => '{{ {{ {{ $".inner-inner-parent" }} $".inner-inner-child" }} $".inner-child" }} $".child"',
-                'expectedParentReference' =>
+                'expectedParentIdentifier' =>
                     '{{ {{ $".inner-inner-parent" }} $".inner-inner-child" }} $".inner-child"',
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider extractChildIdentifierReturnsEmptyValueDataProvider
+     */
+    public function testExtractChildIdentifierReturnsEmptyValue(string $string)
+    {
+        $this->assertNull($this->extractor->extractChildIdentifier($string));
+    }
+
+    public function extractChildIdentifierReturnsEmptyValueDataProvider(): array
+    {
+        return [
+            'empty' => [
+                'string' => '',
+            ],
+            'variable value' => [
+                'string' => '$elements.element_name',
+            ],
+            'invalid parent identifier' => [
+                'string' => '{{ .parent }} $".child"',
+            ],
+            'invalid child identifier' => [
+                'string' => '{{ $".parent" }} .child',
+            ],
+            'lacking parent suffix' => [
+                'string' => '{{ $".parent" .child',
+            ],
+            'parent prefix only' => [
+                'string' => '{{ ',
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider extractChildIdentifierDataProvider
+     */
+    public function testExtractChildIdentifierReturnsString(string $string, string $expectedChildIdentifier)
+    {
+        $identifierString = $this->extractor->extractChildIdentifier($string);
+
+        $this->assertSame($expectedChildIdentifier, $identifierString);
+    }
+
+    public function extractChildIdentifierDataProvider(): array
+    {
+        return [
+            'direct descendant' => [
+                'string' => '{{ $".parent" }} $".child"',
+                'expectedChildIdentifier' => '$".child"',
+            ],
+            'indirect descendant' => [
+                'string' => '{{ {{ $".inner-parent" }} $".inner-child" }} $".child"',
+                'expectedChildIdentifier' => '$".child"',
+            ],
+            'indirectly indirect descendant' => [
+                'string' => '{{ {{ {{ $".inner-inner-parent" }} $".inner-inner-child" }} $".inner-child" }} $".child"',
+                'expectedChildIdentifier' => '$".child"',
             ],
         ];
     }
