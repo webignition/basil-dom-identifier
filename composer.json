@@ -1,8 +1,8 @@
 {
-    "name": "webignition/basil-dom-identifier",
+    "name": "webignition/php-dom-element-identifier",
     "description": "",
     "keywords": [],
-    "homepage": "https://github.com/webignition/basil-dom-identifier",
+    "homepage": "https://github.com/webignition/php-dom-element-identifier",
     "type": "library",
     "license": "MIT",
     "authors": [
@@ -13,12 +13,12 @@
     ],
     "autoload": {
         "psr-4": {
-            "webignition\\BasilDomIdentifier\\": "src"
+            "webignition\\DomElementIdentifier\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "webignition\\BasilDomIdentifier\\Tests\\": "tests"
+            "webignition\\DomElementIdentifier\\Tests\\": "tests"
         }
     },
     "scripts": {
