@@ -6,7 +6,7 @@ namespace webignition\DomElementIdentifier;
 
 use webignition\DomElementLocator\ElementLocator;
 
-class DomIdentifier extends ElementLocator
+class DomIdentifier extends ElementLocator implements DomIdentifierInterface
 {
     /**
      * @var string|null
@@ -14,16 +14,16 @@ class DomIdentifier extends ElementLocator
     private $attributeName = null;
 
     /**
-     * @var DomIdentifier
+     * @var DomIdentifierInterface
      */
     private $parentIdentifier;
 
-    public function getParentIdentifier(): ?DomIdentifier
+    public function getParentIdentifier(): ?DomIdentifierInterface
     {
         return $this->parentIdentifier;
     }
 
-    public function withParentIdentifier(DomIdentifier $parentIdentifier): DomIdentifier
+    public function withParentIdentifier(DomIdentifierInterface $parentIdentifier): DomIdentifierInterface
     {
         $new = clone $this;
         $new->parentIdentifier = $parentIdentifier;
@@ -36,7 +36,7 @@ class DomIdentifier extends ElementLocator
         return $this->attributeName;
     }
 
-    public function withAttributeName(string $attributeName): DomIdentifier
+    public function withAttributeName(string $attributeName): DomIdentifierInterface
     {
         $new = clone $this;
         $new->attributeName = $attributeName;
