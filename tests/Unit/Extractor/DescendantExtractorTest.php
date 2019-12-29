@@ -64,4 +64,62 @@ class DescendantExtractorTest extends \PHPUnit\Framework\TestCase
 
         $this->assertSame($expectedIdentifierString, $identifierString);
     }
+
+    /**
+     * @dataProvider extractParentIdentifierReturnsEmptyValueDataProvider
+     */
+    public function testExtractParentIdentifierReturnsEmptyValue(string $string)
+    {
+        $this->assertNull($this->extractor->extractParentIdentifier($string));
+    }
+
+    public function extractParentIdentifierReturnsEmptyValueDataProvider(): array
+    {
+        return [
+            'empty' => [
+                'string' => '',
+            ],
+            'variable value' => [
+                'string' => '$elements.element_name',
+            ],
+            'invalid parent identifier' => [
+                'string' => '{{ .parent }} $".child"',
+            ],
+            'lacking parent suffix' => [
+                'string' => '{{ $".parent" .child',
+            ],
+            'parent prefix only' => [
+                'string' => '{{ ',
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider extractParentIdentifierDataProvider
+     */
+    public function testExtractParentIdentifierReturnsString(string $string, string $expectedIdentifierString)
+    {
+        $identifierString = $this->extractor->extractParentIdentifier($string);
+
+        $this->assertSame($expectedIdentifierString, $identifierString);
+    }
+
+    public function extractParentIdentifierDataProvider(): array
+    {
+        return [
+            'direct descendant' => [
+                'string' => '{{ $".parent" }} $".child"',
+                'expectedParentReference' => '$".parent"',
+            ],
+            'indirect descendant' => [
+                'string' => '{{ {{ $".inner-parent" }} $".inner-child" }} $".child"',
+                'expectedParentReference' => '{{ $".inner-parent" }} $".inner-child"',
+            ],
+            'indirectly indirect descendant' => [
+                'string' => '{{ {{ {{ $".inner-inner-parent" }} $".inner-inner-child" }} $".inner-child" }} $".child"',
+                'expectedParentReference' =>
+                    '{{ {{ $".inner-inner-parent" }} $".inner-inner-child" }} $".inner-child"',
+            ],
+        ];
+    }
 }

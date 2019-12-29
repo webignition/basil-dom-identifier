@@ -26,6 +26,26 @@ class DescendantExtractor
 
     public function extract(string $string): ?string
     {
+        $parentIdentifier = $this->extractParentIdentifier($string);
+
+        if (null === $parentIdentifier) {
+            return null;
+        }
+
+        $parentReference = '{{ ' . $parentIdentifier . ' }}';
+
+        $childReferencePart = mb_substr($string, mb_strlen($parentReference) + 1);
+        $childReference = $this->pageElementIdentifierExtractor->extractIdentifierString($childReferencePart);
+
+        if (null === $childReference) {
+            return null;
+        }
+
+        return $parentReference . ' ' . $childReference;
+    }
+
+    public function extractParentIdentifier(string $string): ?string
+    {
         if (self::PARENT_PREFIX !== substr($string, 0, strlen(self::PARENT_PREFIX))) {
             return null;
         }
@@ -42,14 +62,7 @@ class DescendantExtractor
             return null;
         }
 
-        $childReferencePart = mb_substr($string, mb_strlen($parentReference) + 1);
-        $childReference = $this->pageElementIdentifierExtractor->extractIdentifierString($childReferencePart);
-
-        if (null === $childReference) {
-            return null;
-        }
-
-        return $parentReference . ' ' . $childReference;
+        return $parentReferenceIdentifier;
     }
 
     private function isParentReference(string $string): bool
