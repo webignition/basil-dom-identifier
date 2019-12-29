@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace webignition\BasilDomIdentifier\Tests\Unit;
+namespace webignition\DomElementIdentifier\Tests\Unit;
 
-use webignition\BasilDomIdentifier\DomIdentifier;
+use webignition\DomElementIdentifier\DomIdentifier;
 
 class DomIdentifierTest extends \PHPUnit\Framework\TestCase
 {
