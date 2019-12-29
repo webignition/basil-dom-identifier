@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace webignition\BasilDomIdentifier;
 
-use webignition\BasilDomIdentifier\Extractor\Extractor;
+use webignition\BasilDomIdentifier\Extractor\DescendantExtractor;
+use webignition\BasilDomIdentifier\Extractor\PageElementIdentifierExtractor;
 use webignition\BasilDomIdentifier\Model\DomIdentifier;
 use webignition\BasilIdentifierAnalyser\IdentifierTypeAnalyser;
 use webignition\QuotedStringValueExtractor\QuotedStringValueExtractor;
@@ -21,16 +22,19 @@ class Factory
         self::POSITION_LAST => -1,
     ];
 
-    private $extractor;
+    private $pageElementIdentifierExtractor;
+    private $descendantExtractor;
     private $identifierTypeAnalyser;
     private $quotedStringValueExtractor;
 
     public function __construct(
-        Extractor $extractor,
+        PageElementIdentifierExtractor $pageElementIdentifierExtractor,
+        DescendantExtractor $descendantExtractor,
         IdentifierTypeAnalyser $identifierTypeAnalyser,
         QuotedStringValueExtractor $quotedStringValueExtractor
     ) {
-        $this->extractor = $extractor;
+        $this->pageElementIdentifierExtractor = $pageElementIdentifierExtractor;
+        $this->descendantExtractor = $descendantExtractor;
         $this->identifierTypeAnalyser = $identifierTypeAnalyser;
         $this->quotedStringValueExtractor = $quotedStringValueExtractor;
     }
@@ -38,7 +42,8 @@ class Factory
     public static function createFactory(): Factory
     {
         return new Factory(
-            Extractor::createExtractor(),
+            PageElementIdentifierExtractor::createExtractor(),
+            DescendantExtractor::createExtractor(),
             new IdentifierTypeAnalyser(),
             QuotedStringValueExtractor::createExtractor()
         );
@@ -46,12 +51,21 @@ class Factory
 
     public function createFromIdentifierString(string $identifierString): ?DomIdentifier
     {
-        $identifierString = $this->extractor->extractIdentifierString(trim($identifierString));
-
-        if (null === $identifierString || !$this->identifierTypeAnalyser->isDomIdentifier($identifierString)) {
-            return null;
+        $pageElementIdentifier = $this->pageElementIdentifierExtractor->extractIdentifierString($identifierString);
+        if (is_string($pageElementIdentifier)) {
+            return $this->createFromPageElementIdentifierString($pageElementIdentifier);
         }
 
+        $descendantIdentifier = $this->descendantExtractor->extract($identifierString);
+        if (is_string($descendantIdentifier)) {
+            return $this->createFromDescendantIdentifierString($descendantIdentifier);
+        }
+
+        return null;
+    }
+
+    private function createFromPageElementIdentifierString(string $identifierString): DomIdentifier
+    {
         $elementIdentifier = $identifierString;
         $attributeName = '';
 
@@ -75,6 +89,19 @@ class Factory
         }
 
         return $identifier;
+    }
+
+    private function createFromDescendantIdentifierString(string $identifierString): DomIdentifier
+    {
+        $parentIdentifier = $this->descendantExtractor->extractParentIdentifier($identifierString);
+        $childIdentifier = $this->descendantExtractor->extractChildIdentifier($identifierString);
+
+        $childDomIdentifier = $this->createFromIdentifierString($childIdentifier);
+        $parentDomIdentifier = $this->createFromIdentifierString($parentIdentifier);
+
+        $childDomIdentifier = $childDomIdentifier->withParentIdentifier($parentDomIdentifier);
+
+        return $childDomIdentifier;
     }
 
     private function findAttributeName(string $identifierString): string

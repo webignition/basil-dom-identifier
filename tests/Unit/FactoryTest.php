@@ -8,6 +8,7 @@ use webignition\BasilDomIdentifier\Factory;
 use webignition\BasilDomIdentifier\Model\DomIdentifier;
 use webignition\BasilDomIdentifier\Tests\DataProvider\AttributeIdentifierDataProviderTrait;
 use webignition\BasilDomIdentifier\Tests\DataProvider\CssSelectorIdentifierDataProviderTrait;
+use webignition\BasilDomIdentifier\Tests\DataProvider\DescendantIdentifierDataProviderTrait;
 use webignition\BasilDomIdentifier\Tests\DataProvider\UnknownIdentifierDataProviderTrait;
 use webignition\BasilDomIdentifier\Tests\DataProvider\XpathExpressionIdentifierDataProviderTrait;
 
@@ -15,8 +16,9 @@ class FactoryTest extends \PHPUnit\Framework\TestCase
 {
     use AttributeIdentifierDataProviderTrait;
     use CssSelectorIdentifierDataProviderTrait;
-    use XpathExpressionIdentifierDataProviderTrait;
+    use DescendantIdentifierDataProviderTrait;
     use UnknownIdentifierDataProviderTrait;
+    use XpathExpressionIdentifierDataProviderTrait;
 
     /**
      * @var Factory
@@ -33,6 +35,7 @@ class FactoryTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider attributeIdentifierDataProvider
      * @dataProvider cssSelectorIdentifierDataProvider
+     * @dataProvider descendantIdentifierDataProvider
      * @dataProvider xpathExpressionIdentifierDataProvider
      */
     public function testCreateFromIdentifierStringSuccess(string $identifierString, DomIdentifier $expectedIdentifier)
