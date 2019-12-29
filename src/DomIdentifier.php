@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace webignition\BasilDomIdentifier\Model;
+namespace webignition\BasilDomIdentifier;
 
 use webignition\DomElementLocator\ElementLocator;
 
