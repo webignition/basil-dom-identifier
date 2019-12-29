@@ -12,7 +12,7 @@ class DescendantExtractorTest extends \PHPUnit\Framework\TestCase
     use DescendantIdentifierStringDataProviderTrait;
 
     /**
-     * @var \webignition\BasilDomIdentifier\Extractor\DescendantExtractor
+     * @var DescendantExtractor
      */
     private $extractor;
 

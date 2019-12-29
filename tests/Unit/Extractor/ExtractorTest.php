@@ -5,14 +5,16 @@ declare(strict_types=1);
 namespace webignition\BasilDomIdentifier\Tests\Unit\Extractor;
 
 use webignition\BasilDomIdentifier\Extractor\Extractor;
+use webignition\BasilDomIdentifier\Tests\DataProvider\DescendantIdentifierStringDataProviderTrait;
 use webignition\BasilDomIdentifier\Tests\DataProvider\IdentifierStringDataProviderTrait;
 
 class ExtractorTest extends \PHPUnit\Framework\TestCase
 {
+    use DescendantIdentifierStringDataProviderTrait;
     use IdentifierStringDataProviderTrait;
 
     /**
-     * @var \webignition\BasilDomIdentifier\Extractor\Extractor
+     * @var Extractor
      */
     private $extractor;
 
@@ -20,35 +22,16 @@ class ExtractorTest extends \PHPUnit\Framework\TestCase
     {
         parent::setUp();
 
-        $this->extractor = new Extractor();
+        $this->extractor = Extractor::createExtractor();
     }
 
     /**
-     * @dataProvider unhandledStringsDataProvider
-     */
-    public function testExtractIdentifierStringReturnsEmptyValue(string $string)
-    {
-        $this->assertNull($this->extractor->extractIdentifierString($string));
-    }
-
-    public function unhandledStringsDataProvider(): array
-    {
-        return [
-            'empty' => [
-                'string' => '',
-            ],
-            'not internally quoted' => [
-                'string' => '$value',
-            ],
-        ];
-    }
-
-    /**
+     * @dataProvider descendantIdentifierStringDataProvider
      * @dataProvider identifierStringDataProvider
      */
-    public function testExtractIdentifierStringReturnsString(string $string, string $expectedIdentifierString)
+    public function testExtractReturnsString(string $string, string $expectedIdentifierString)
     {
-        $identifierString = $this->extractor->extractIdentifierString($string);
+        $identifierString = $this->extractor->extract($string);
 
         $this->assertSame($expectedIdentifierString, $identifierString);
     }

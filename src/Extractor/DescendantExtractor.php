@@ -12,7 +12,7 @@ class DescendantExtractor
 
     private $pageElementIdentifierExtractor;
 
-    public function __construct(Extractor $pageElementIdentifierExtractor)
+    public function __construct(PageElementIdentifierExtractor $pageElementIdentifierExtractor)
     {
         $this->pageElementIdentifierExtractor = $pageElementIdentifierExtractor;
     }
@@ -20,7 +20,7 @@ class DescendantExtractor
     public static function createExtractor(): DescendantExtractor
     {
         return new DescendantExtractor(
-            Extractor::createExtractor()
+            PageElementIdentifierExtractor::createExtractor()
         );
     }
 
