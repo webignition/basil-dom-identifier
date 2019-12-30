@@ -26,6 +26,19 @@ class ElementIdentifier extends ElementLocator implements ElementIdentifierInter
         return $new;
     }
 
+    public function getScope(): array
+    {
+        $scope = [];
+
+        $parentIdentifier = $this->getParentIdentifier();
+        while ($parentIdentifier instanceof ElementIdentifierInterface) {
+            $scope[] = $parentIdentifier;
+            $parentIdentifier = $parentIdentifier->getParentIdentifier();
+        }
+
+        return array_reverse($scope);
+    }
+
     public function __toString(): string
     {
         $string = '$' . parent::__toString();

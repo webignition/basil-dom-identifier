@@ -21,6 +21,52 @@ class ElementIdentifierTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @dataProvider getScopeDataProvider
+     *
+     * @param ElementIdentifierInterface $elementIdentifier
+     * @param array<int, ElementIdentifierInterface> $expectedScope
+     */
+    public function testGetScope(ElementIdentifierInterface $elementIdentifier, array $expectedScope)
+    {
+        $this->assertEquals($expectedScope, $elementIdentifier->getScope());
+    }
+
+    public function getScopeDataProvider(): array
+    {
+        return [
+            'no scope' => [
+                'elementIdentifier' => new ElementIdentifier('.selector'),
+                'expectedScope' => [],
+            ],
+            'parent > child' => [
+                'elementIdentifier' => (new ElementIdentifier('.child'))
+                    ->withParentIdentifier(
+                        new ElementIdentifier('.parent')
+                    ),
+                'expectedScope' => [
+                    new ElementIdentifier('.parent'),
+                ],
+            ],
+            'grandparent > parent > child' => [
+                'elementIdentifier' => (new ElementIdentifier('.child'))
+                    ->withParentIdentifier(
+                        (new ElementIdentifier('.parent'))
+                            ->withParentIdentifier(
+                                new ElementIdentifier('.grandparent')
+                            )
+                    ),
+                'expectedScope' => [
+                    new ElementIdentifier('.grandparent'),
+                    (new ElementIdentifier('.parent'))
+                        ->withParentIdentifier(
+                            new ElementIdentifier('.grandparent')
+                        ),
+                ],
+            ],
+        ];
+    }
+
+    /**
      * @dataProvider toStringDataProvider
      */
     public function testToString(ElementIdentifierInterface $domIdentifier, string $expectedString)
