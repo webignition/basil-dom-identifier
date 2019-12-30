@@ -11,13 +11,13 @@ class ElementIdentifierTest extends \PHPUnit\Framework\TestCase
 {
     public function testParentIdentifier()
     {
-        $domIdentifier = new ElementIdentifier('.selector');
-        $this->assertNull($domIdentifier->getParentIdentifier());
+        $identifier = new ElementIdentifier('.selector');
+        $this->assertNull($identifier->getParentIdentifier());
 
         $parentIdentifier = new ElementIdentifier('.parent');
-        $domIdentifier = $domIdentifier->withParentIdentifier($parentIdentifier);
+        $identifier = $identifier->withParentIdentifier($parentIdentifier);
 
-        $this->assertSame($parentIdentifier, $domIdentifier->getParentIdentifier());
+        $this->assertSame($parentIdentifier, $identifier->getParentIdentifier());
     }
 
     /**

@@ -12,13 +12,15 @@ class AttributeIdentifierTest extends \PHPUnit\Framework\TestCase
 {
     public function testAttributeName()
     {
-        $domIdentifier = new AttributeIdentifier('.selector');
-        $this->assertNull($domIdentifier->getAttributeName());
+        $identifier = new AttributeIdentifier('.selector');
+        $this->assertNull($identifier->getAttributeName());
 
         $attributeName = 'attribute_name';
-        $domIdentifier = $domIdentifier->withAttributeName($attributeName);
+        $identifier = $identifier->withAttributeName($attributeName);
 
-        $this->assertSame($attributeName, $domIdentifier->getAttributeName());
+        if ($identifier instanceof AttributeIdentifierInterface) {
+            $this->assertSame($attributeName, $identifier->getAttributeName());
+        }
     }
 
     /**
