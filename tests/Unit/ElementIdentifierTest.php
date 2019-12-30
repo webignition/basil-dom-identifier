@@ -110,4 +110,82 @@ class ElementIdentifierTest extends \PHPUnit\Framework\TestCase
             ],
         ];
     }
+
+    /**
+     * @dataProvider jsonSerializeDataProvider
+     *
+     * @param ElementIdentifierInterface $elementIdentifier
+     * @param array<mixed> $expectedData
+     */
+    public function testJsonSerialize(ElementIdentifierInterface $elementIdentifier, array $expectedData)
+    {
+        $this->assertSame($expectedData, $elementIdentifier->jsonSerialize());
+    }
+
+    public function jsonSerializeDataProvider(): array
+    {
+        return [
+            'empty' => [
+                'elementIdentifier' => new ElementIdentifier(''),
+                'expectedData' => [
+                    'parent' => null,
+                    'selector' => '',
+                    'position' => null,
+                ],
+            ],
+            'css selector' => [
+                'elementIdentifier' => new ElementIdentifier('.selector'),
+                'expectedData' => [
+                    'parent' => null,
+                    'selector' => '.selector',
+                    'position' => null,
+                ],
+            ],
+            'css selector with ordinal position' => [
+                'elementIdentifier' => new ElementIdentifier('.selector', 3),
+                'expectedData' => [
+                    'parent' => null,
+                    'selector' => '.selector',
+                    'position' => 3,
+                ],
+            ],
+            'parent > child' => [
+                'elementIdentifier' => (new ElementIdentifier('.child'))
+                    ->withParentIdentifier(
+                        new ElementIdentifier('.parent')
+                    ),
+                'expectedData' => [
+                    'parent' => [
+                        'parent' => null,
+                        'selector' => '.parent',
+                        'position' => null,
+                    ],
+                    'selector' => '.child',
+                    'position' => null,
+                ],
+            ],
+            'grandparent > parent > child' => [
+                'elementIdentifier' => (new ElementIdentifier('.child'))
+                    ->withParentIdentifier(
+                        (new ElementIdentifier('.parent'))
+                            ->withParentIdentifier(
+                                new ElementIdentifier('.grandparent')
+                            )
+                    ),
+                'expectedData' => [
+                    'parent' => [
+                        'parent' => [
+                            'parent' => null,
+                            'selector' => '.grandparent',
+                            'position' => null,
+                        ],
+                        'selector' => '.parent',
+                        'position' => null,
+                    ],
+                    'selector' => '.child',
+                    'position' => null,
+                ],
+            ],
+        ];
+    }
 }

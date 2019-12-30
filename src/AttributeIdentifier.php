@@ -20,6 +20,18 @@ class AttributeIdentifier extends ElementIdentifier implements AttributeIdentifi
         return $this->attributeName;
     }
 
+    /**
+     * @return array<mixed>
+     */
+    public function jsonSerialize(): array
+    {
+        $data = parent::jsonSerialize();
+
+        $data['attribute'] = $this->attributeName;
+
+        return $data;
+    }
+
     public function __toString(): string
     {
         return parent::__toString() . '.' . $this->attributeName;

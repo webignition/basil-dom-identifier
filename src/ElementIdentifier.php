@@ -39,6 +39,24 @@ class ElementIdentifier extends ElementLocator implements ElementIdentifierInter
         return array_reverse($scope);
     }
 
+    /**
+     * @return array<mixed>
+     */
+    public function jsonSerialize(): array
+    {
+        $parentIdentifier = $this->getParentIdentifier();
+
+        $serializedParent = $parentIdentifier instanceof ElementIdentifierInterface
+            ? $parentIdentifier->jsonSerialize()
+            : null;
+
+        return [
+            'parent' => $serializedParent,
+            'selector' => $this->getLocator(),
+            'position' => $this->getOrdinalPosition(),
+        ];
+    }
+
     public function __toString(): string
     {
         $string = '$' . parent::__toString();
