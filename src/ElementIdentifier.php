@@ -44,17 +44,21 @@ class ElementIdentifier extends ElementLocator implements ElementIdentifierInter
      */
     public function jsonSerialize(): array
     {
-        $parentIdentifier = $this->getParentIdentifier();
+        return Serializer::toArray($this);
+    }
 
-        $serializedParent = $parentIdentifier instanceof ElementIdentifierInterface
-            ? $parentIdentifier->jsonSerialize()
-            : null;
+    public static function deserializeFromJson(string $json): ?ElementIdentifierInterface
+    {
+        $data = json_decode($json, true);
 
-        return [
-            'parent' => $serializedParent,
-            'selector' => $this->getLocator(),
-            'position' => $this->getOrdinalPosition(),
-        ];
+        if (!is_array($data)) {
+            return null;
+        }
+
+        var_dump($data);
+        exit();
+
+        return null;
     }
 
     public function __toString(): string
