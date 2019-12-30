@@ -32,7 +32,7 @@ class AttributeIdentifierTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function testDeserializeFromJson()
+    public function testFromJson()
     {
         $this->assertEquals(
             new AttributeIdentifier('.selector', 'attribute_name'),

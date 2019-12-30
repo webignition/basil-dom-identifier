@@ -16,5 +16,14 @@ interface ElementIdentifierInterface extends ElementLocatorInterface, \JsonSeria
      */
     public function getScope(): array;
 
+    /**
+     * @param string $json
+     *
+     * @throws InvalidJsonException
+     *
+     * @return ElementIdentifierInterface
+     */
+    public static function fromJson(string $json): ElementIdentifierInterface;
+
     public function __toString(): string;
 }
