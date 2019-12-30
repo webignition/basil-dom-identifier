@@ -6,7 +6,7 @@ namespace webignition\DomElementIdentifier;
 
 use webignition\DomElementLocator\ElementLocatorInterface;
 
-interface ElementIdentifierInterface extends ElementLocatorInterface
+interface ElementIdentifierInterface extends ElementLocatorInterface, \JsonSerializable
 {
     public function getParentIdentifier(): ?ElementIdentifierInterface;
     public function withParentIdentifier(ElementIdentifierInterface $parentIdentifier): ElementIdentifierInterface;
