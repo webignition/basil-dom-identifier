@@ -36,7 +36,7 @@ class AttributeIdentifierTest extends \PHPUnit\Framework\TestCase
     {
         $this->assertEquals(
             new AttributeIdentifier('.selector', 'attribute_name'),
-            ElementIdentifier::fromJson(json_encode([
+            AttributeIdentifier::fromJson((string) json_encode([
                 Serializer::KEY_LOCATOR => '.selector',
                 Serializer::KEY_ATTRIBUTE => 'attribute_name',
             ]))

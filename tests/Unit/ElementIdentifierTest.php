@@ -128,7 +128,7 @@ class ElementIdentifierTest extends \PHPUnit\Framework\TestCase
     {
         $this->assertEquals(
             new ElementIdentifier('.selector'),
-            ElementIdentifier::fromJson(json_encode([
+            ElementIdentifier::fromJson((string) json_encode([
                 Serializer::KEY_LOCATOR => '.selector',
             ]))
         );

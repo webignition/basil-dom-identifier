@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace webignition\DomElementIdentifier;
 
-use webignition\DomElementLocator\ElementLocator;
-
 class Serializer
 {
     public const KEY_PARENT = 'parent';
@@ -13,7 +11,12 @@ class Serializer
     public const KEY_POSITION = 'position';
     public const KEY_ATTRIBUTE = 'attribute';
 
-    public static function toArray(ElementIdentifierInterface $elementIdentifier)
+    /**
+     * @param ElementIdentifierInterface $elementIdentifier
+     *
+     * @return array<mixed>
+     */
+    public static function toArray(ElementIdentifierInterface $elementIdentifier): array
     {
         $parentIdentifier = $elementIdentifier->getParentIdentifier();
 
@@ -61,7 +64,7 @@ class Serializer
         $parent = $data[self::KEY_PARENT] ?? null;
 
         $parentIdentifier = is_array($parent)
-            ? self::fromJson(json_encode($parent))
+            ? self::fromJson((string) json_encode($parent))
             : null;
 
         $attribute = $data[self::KEY_ATTRIBUTE] ?? null;
