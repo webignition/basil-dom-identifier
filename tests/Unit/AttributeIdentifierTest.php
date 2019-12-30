@@ -10,17 +10,12 @@ use webignition\DomElementIdentifier\ElementIdentifier;
 
 class AttributeIdentifierTest extends \PHPUnit\Framework\TestCase
 {
-    public function testAttributeName()
+    public function testGetAttributeName()
     {
-        $identifier = new AttributeIdentifier('.selector');
-        $this->assertNull($identifier->getAttributeName());
-
         $attributeName = 'attribute_name';
-        $identifier = $identifier->withAttributeName($attributeName);
+        $identifier = new AttributeIdentifier('.selector', $attributeName);
 
-        if ($identifier instanceof AttributeIdentifierInterface) {
-            $this->assertSame($attributeName, $identifier->getAttributeName());
-        }
+        $this->assertSame($attributeName, $identifier->getAttributeName());
     }
 
     /**
@@ -35,13 +30,11 @@ class AttributeIdentifierTest extends \PHPUnit\Framework\TestCase
     {
         return [
             'css selector with attribute' => [
-                'locator' => (new AttributeIdentifier('.selector'))
-                    ->withAttributeName('attribute_name'),
+                'locator' => new AttributeIdentifier('.selector', 'attribute_name'),
                 'expectedString' => '$".selector".attribute_name',
             ],
             'css selector with parent, ordinal position and attribute name' => [
-                'locator' => (new AttributeIdentifier('.selector', 7))
-                    ->withAttributeName('attribute_name')
+                'locator' => (new AttributeIdentifier('.selector', 'attribute_name', 7))
                     ->withParentIdentifier(
                         new ElementIdentifier('.parent')
                     ),
