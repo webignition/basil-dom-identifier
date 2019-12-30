@@ -11,5 +11,10 @@ interface ElementIdentifierInterface extends ElementLocatorInterface
     public function getParentIdentifier(): ?ElementIdentifierInterface;
     public function withParentIdentifier(ElementIdentifierInterface $parentIdentifier): ElementIdentifierInterface;
 
+    /**
+     * @return array<int, ElementIdentifierInterface>
+     */
+    public function getScope(): array;
+
     public function __toString(): string;
 }
