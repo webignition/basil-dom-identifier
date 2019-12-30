@@ -8,6 +8,7 @@ use webignition\DomElementIdentifier\AttributeIdentifier;
 use webignition\DomElementIdentifier\ElementIdentifier;
 use webignition\DomElementIdentifier\ElementIdentifierInterface;
 use webignition\DomElementIdentifier\InvalidJsonException;
+use webignition\DomElementIdentifier\Serializer;
 
 class SerializerTest extends \PHPUnit\Framework\TestCase
 {
@@ -19,7 +20,7 @@ class SerializerTest extends \PHPUnit\Framework\TestCase
      */
     public function testToArray(ElementIdentifierInterface $elementIdentifier, array $expectedData)
     {
-        $this->assertSame($expectedData, $elementIdentifier->jsonSerialize());
+        $this->assertSame($expectedData, Serializer::toArray($elementIdentifier));
     }
 
     public function toArrayDataProvider(): array
@@ -28,43 +29,43 @@ class SerializerTest extends \PHPUnit\Framework\TestCase
             'empty' => [
                 'elementIdentifier' => new ElementIdentifier(''),
                 'expectedData' => [
-                    'parent' => null,
-                    'selector' => '',
-                    'position' => null,
+                    Serializer::KEY_PARENT => null,
+                    Serializer::KEY_LOCATOR => '',
+                    Serializer::KEY_POSITION => null,
                 ],
             ],
             'element selector' => [
                 'elementIdentifier' => new ElementIdentifier('.selector'),
                 'expectedData' => [
-                    'parent' => null,
-                    'selector' => '.selector',
-                    'position' => null,
+                    Serializer::KEY_PARENT => null,
+                    Serializer::KEY_LOCATOR => '.selector',
+                    Serializer::KEY_POSITION => null,
                 ],
             ],
             'element selector with ordinal position' => [
                 'elementIdentifier' => new ElementIdentifier('.selector', 3),
                 'expectedData' => [
-                    'parent' => null,
-                    'selector' => '.selector',
-                    'position' => 3,
+                    Serializer::KEY_PARENT => null,
+                    Serializer::KEY_LOCATOR => '.selector',
+                    Serializer::KEY_POSITION => 3,
                 ],
             ],
             'attribute selector' => [
                 'elementIdentifier' => new AttributeIdentifier('.selector', 'attribute_name'),
                 'expectedData' => [
-                    'parent' => null,
-                    'selector' => '.selector',
-                    'position' => null,
-                    'attribute' => 'attribute_name',
+                    Serializer::KEY_PARENT => null,
+                    Serializer::KEY_LOCATOR => '.selector',
+                    Serializer::KEY_POSITION => null,
+                    Serializer::KEY_ATTRIBUTE => 'attribute_name',
                 ],
             ],
             'attribute selector with ordinal position' => [
                 'elementIdentifier' => new AttributeIdentifier('.selector', 'attribute_name', 3),
                 'expectedData' => [
-                    'parent' => null,
-                    'selector' => '.selector',
-                    'position' => 3,
-                    'attribute' => 'attribute_name',
+                    Serializer::KEY_PARENT => null,
+                    Serializer::KEY_LOCATOR => '.selector',
+                    Serializer::KEY_POSITION => 3,
+                    Serializer::KEY_ATTRIBUTE => 'attribute_name',
                 ],
             ],
             'parent > child' => [
@@ -73,13 +74,13 @@ class SerializerTest extends \PHPUnit\Framework\TestCase
                         new ElementIdentifier('.parent')
                     ),
                 'expectedData' => [
-                    'parent' => [
-                        'parent' => null,
-                        'selector' => '.parent',
-                        'position' => null,
+                    Serializer::KEY_PARENT => [
+                        Serializer::KEY_PARENT => null,
+                        Serializer::KEY_LOCATOR => '.parent',
+                        Serializer::KEY_POSITION => null,
                     ],
-                    'selector' => '.child',
-                    'position' => null,
+                    Serializer::KEY_LOCATOR => '.child',
+                    Serializer::KEY_POSITION => null,
                 ],
             ],
             'grandparent > parent > child' => [
@@ -91,17 +92,17 @@ class SerializerTest extends \PHPUnit\Framework\TestCase
                             )
                     ),
                 'expectedData' => [
-                    'parent' => [
-                        'parent' => [
-                            'parent' => null,
-                            'selector' => '.grandparent',
-                            'position' => null,
+                    Serializer::KEY_PARENT => [
+                        Serializer::KEY_PARENT => [
+                            Serializer::KEY_PARENT => null,
+                            Serializer::KEY_LOCATOR => '.grandparent',
+                            Serializer::KEY_POSITION => null,
                         ],
-                        'selector' => '.parent',
-                        'position' => null,
+                        Serializer::KEY_LOCATOR => '.parent',
+                        Serializer::KEY_POSITION => null,
                     ],
-                    'selector' => '.child',
-                    'position' => null,
+                    Serializer::KEY_LOCATOR => '.child',
+                    Serializer::KEY_POSITION => null,
                 ],
             ],
         ];
@@ -112,7 +113,7 @@ class SerializerTest extends \PHPUnit\Framework\TestCase
      */
     public function testDeserializeFromJsonSuccess(string $json, ElementIdentifierInterface $expectedIdentifier)
     {
-        $this->assertEquals($expectedIdentifier, ElementIdentifier::fromJson($json));
+        $this->assertEquals($expectedIdentifier, Serializer::fromJson($json));
     }
 
     public function deserializeFromJsonDataProvider(): array
@@ -120,38 +121,38 @@ class SerializerTest extends \PHPUnit\Framework\TestCase
         return [
             'element selector, no parents' => [
                 'json' => json_encode([
-                    'selector' => '.selector',
+                    Serializer::KEY_LOCATOR => '.selector',
                 ]),
                 'expectedIdentifier' => new ElementIdentifier('.selector'),
             ],
             'element selector, has position, no parents' => [
                 'json' => json_encode([
-                    'selector' => '.selector',
-                    'position' => 7,
+                    Serializer::KEY_LOCATOR => '.selector',
+                    Serializer::KEY_POSITION => 7,
                 ]),
                 'expectedIdentifier' => new ElementIdentifier('.selector', 7),
             ],
             'attribute selector, no parents' => [
                 'json' => json_encode([
-                    'selector' => '.selector',
-                    'attribute' => 'attribute_name',
+                    Serializer::KEY_LOCATOR => '.selector',
+                    Serializer::KEY_ATTRIBUTE => 'attribute_name',
                 ]),
                 'expectedIdentifier' => new AttributeIdentifier('.selector', 'attribute_name'),
             ],
             'attribute selector, has position, no parents' => [
                 'json' => json_encode([
-                    'selector' => '.selector',
-                    'position' => 5,
-                    'attribute' => 'attribute_name',
+                    Serializer::KEY_LOCATOR => '.selector',
+                    Serializer::KEY_POSITION => 5,
+                    Serializer::KEY_ATTRIBUTE => 'attribute_name',
                 ]),
                 'expectedIdentifier' => new AttributeIdentifier('.selector', 'attribute_name', 5),
             ],
             'parent > child' => [
                 'json' => json_encode([
-                    'parent' => [
-                        'selector' => '.parent'
+                    Serializer::KEY_PARENT => [
+                        Serializer::KEY_LOCATOR => '.parent'
                     ],
-                    'selector' => '.child',
+                    Serializer::KEY_LOCATOR => '.child',
                 ]),
                 'expectedIdentifier' => (new ElementIdentifier('.child'))
                     ->withParentIdentifier(
@@ -160,13 +161,13 @@ class SerializerTest extends \PHPUnit\Framework\TestCase
             ],
             'grandparent > parent > child' => [
                 'json' => json_encode([
-                    'parent' => [
-                        'parent' => [
-                            'selector' => '.grandparent',
+                    Serializer::KEY_PARENT => [
+                        Serializer::KEY_PARENT => [
+                            Serializer::KEY_LOCATOR => '.grandparent',
                         ],
-                        'selector' => '.parent'
+                        Serializer::KEY_LOCATOR => '.parent'
                     ],
-                    'selector' => '.child',
+                    Serializer::KEY_LOCATOR => '.child',
                 ]),
                 'expectedIdentifier' => (new ElementIdentifier('.child'))
                     ->withParentIdentifier(
@@ -197,8 +198,8 @@ class SerializerTest extends \PHPUnit\Framework\TestCase
             ],
             'position is not an integer' => [
                 'json' => json_encode([
-                    'selector' => '.selector',
-                    'position' => 'string',
+                    Serializer::KEY_LOCATOR => '.selector',
+                    Serializer::KEY_POSITION => 'string',
                 ]),
             ],
         ];

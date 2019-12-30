@@ -7,6 +7,7 @@ namespace webignition\DomElementIdentifier\Tests\Unit;
 use webignition\DomElementIdentifier\AttributeIdentifier;
 use webignition\DomElementIdentifier\AttributeIdentifierInterface;
 use webignition\DomElementIdentifier\ElementIdentifier;
+use webignition\DomElementIdentifier\Serializer;
 
 class AttributeIdentifierTest extends \PHPUnit\Framework\TestCase
 {
@@ -22,10 +23,10 @@ class AttributeIdentifierTest extends \PHPUnit\Framework\TestCase
     {
         $this->assertSame(
             [
-                'parent' => null,
-                'selector' => '.selector',
-                'position' => null,
-                'attribute' => 'attribute_name',
+                Serializer::KEY_PARENT => null,
+                Serializer::KEY_LOCATOR => '.selector',
+                Serializer::KEY_POSITION => null,
+                Serializer::KEY_ATTRIBUTE => 'attribute_name',
             ],
             (new AttributeIdentifier('.selector', 'attribute_name'))->jsonSerialize()
         );
@@ -36,8 +37,8 @@ class AttributeIdentifierTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(
             new AttributeIdentifier('.selector', 'attribute_name'),
             ElementIdentifier::fromJson(json_encode([
-                'selector' => '.selector',
-                'attribute' => 'attribute_name',
+                Serializer::KEY_LOCATOR => '.selector',
+                Serializer::KEY_ATTRIBUTE => 'attribute_name',
             ]))
         );
     }

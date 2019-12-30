@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace webignition\DomElementIdentifier\Tests\Unit;
 
-use webignition\DomElementIdentifier\AttributeIdentifier;
 use webignition\DomElementIdentifier\ElementIdentifier;
 use webignition\DomElementIdentifier\ElementIdentifierInterface;
-use webignition\DomElementIdentifier\InvalidJsonException;
+use webignition\DomElementIdentifier\Serializer;
 
 class ElementIdentifierTest extends \PHPUnit\Framework\TestCase
 {
@@ -117,9 +116,9 @@ class ElementIdentifierTest extends \PHPUnit\Framework\TestCase
     {
         $this->assertSame(
             [
-                'parent' => null,
-                'selector' => '.selector',
-                'position' => null,
+                Serializer::KEY_PARENT => null,
+                Serializer::KEY_LOCATOR => '.selector',
+                Serializer::KEY_POSITION => null,
             ],
             (new ElementIdentifier('.selector'))->jsonSerialize()
         );
@@ -130,7 +129,7 @@ class ElementIdentifierTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(
             new ElementIdentifier('.selector'),
             ElementIdentifier::fromJson(json_encode([
-                'selector' => '.selector',
+                Serializer::KEY_LOCATOR => '.selector',
             ]))
         );
     }

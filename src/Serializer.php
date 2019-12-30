@@ -8,10 +8,10 @@ use webignition\DomElementLocator\ElementLocator;
 
 class Serializer
 {
-    private const KEY_PARENT = 'parent';
-    private const KEY_SELECTOR = 'selector';
-    private const KEY_POSITION = 'position';
-    private const KEY_ATTRIBUTE = 'attribute';
+    public const KEY_PARENT = 'parent';
+    public const KEY_LOCATOR = 'locator';
+    public const KEY_POSITION = 'position';
+    public const KEY_ATTRIBUTE = 'attribute';
 
     public static function toArray(ElementIdentifierInterface $elementIdentifier)
     {
@@ -23,7 +23,7 @@ class Serializer
 
         $data = [
             self::KEY_PARENT => $serializedParent,
-            self::KEY_SELECTOR => $elementIdentifier->getLocator(),
+            self::KEY_LOCATOR => $elementIdentifier->getLocator(),
             self::KEY_POSITION => $elementIdentifier->getOrdinalPosition(),
         ];
 
@@ -48,7 +48,7 @@ class Serializer
             throw new InvalidJsonException($json);
         }
 
-        $selector = $data[self::KEY_SELECTOR] ?? null;
+        $selector = $data[self::KEY_LOCATOR] ?? null;
         if (!is_string($selector)) {
             throw new InvalidJsonException($json);
         }
