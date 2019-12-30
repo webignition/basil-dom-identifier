@@ -124,7 +124,7 @@ class ElementIdentifierTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function testDeserializeFromJson()
+    public function testFromJson()
     {
         $this->assertEquals(
             new ElementIdentifier('.selector'),
