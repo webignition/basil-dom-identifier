@@ -25,11 +25,7 @@ class AttributeIdentifier extends ElementIdentifier implements AttributeIdentifi
      */
     public function jsonSerialize(): array
     {
-        $data = parent::jsonSerialize();
-
-        $data['attribute'] = $this->attributeName;
-
-        return $data;
+        return Serializer::toArray($this);
     }
 
     public function __toString(): string
