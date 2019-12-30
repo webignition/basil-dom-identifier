@@ -47,18 +47,16 @@ class ElementIdentifier extends ElementLocator implements ElementIdentifierInter
         return Serializer::toArray($this);
     }
 
-    public static function deserializeFromJson(string $json): ?ElementIdentifierInterface
+    /**
+     * @param string $json
+     *
+     * @return ElementIdentifierInterface
+     *
+     * @throws InvalidJsonException
+     */
+    public static function fromJson(string $json): ElementIdentifierInterface
     {
-        $data = json_decode($json, true);
-
-        if (!is_array($data)) {
-            return null;
-        }
-
-        var_dump($data);
-        exit();
-
-        return null;
+        return Serializer::fromJson($json);
     }
 
     public function __toString(): string

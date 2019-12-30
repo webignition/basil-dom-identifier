@@ -18,46 +18,28 @@ class AttributeIdentifierTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($attributeName, $identifier->getAttributeName());
     }
 
-    /**
-     * @dataProvider jsonSerializeDataProvider
-     *
-     * @param AttributeIdentifierInterface $identifier
-     * @param array<mixed> $expectedData
-     */
-    public function testJsonSerialize(AttributeIdentifierInterface $identifier, array $expectedData)
+    public function testJsonSerialize()
     {
-        $this->assertSame($expectedData, $identifier->jsonSerialize());
+        $this->assertSame(
+            [
+                'parent' => null,
+                'selector' => '.selector',
+                'position' => null,
+                'attribute' => 'attribute_name',
+            ],
+            (new AttributeIdentifier('.selector', 'attribute_name'))->jsonSerialize()
+        );
     }
 
-    public function jsonSerializeDataProvider(): array
+    public function testDeserializeFromJson()
     {
-        return [
-            'css selector with attribute' => [
-                'identifier' => new AttributeIdentifier('.selector', 'attribute_name'),
-                'expectedData' => [
-                    'parent' => null,
-                    'selector' => '.selector',
-                    'position' => null,
-                    'attribute' => 'attribute_name',
-                ],
-            ],
-            'css selector with parent, ordinal position and attribute name' => [
-                'identifier' => (new AttributeIdentifier('.selector', 'attribute_name', 7))
-                    ->withParentIdentifier(
-                        new ElementIdentifier('.parent')
-                    ),
-                'expectedData' => [
-                    'parent' => [
-                        'parent' => null,
-                        'selector' => '.parent',
-                        'position' => null,
-                    ],
-                    'selector' => '.selector',
-                    'position' => 7,
-                    'attribute' => 'attribute_name',
-                ],
-            ],
-        ];
+        $this->assertEquals(
+            new AttributeIdentifier('.selector', 'attribute_name'),
+            ElementIdentifier::fromJson(json_encode([
+                'selector' => '.selector',
+                'attribute' => 'attribute_name',
+            ]))
+        );
     }
 
     /**
