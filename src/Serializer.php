@@ -25,10 +25,17 @@ class Serializer
             : null;
 
         $data = [
-            self::KEY_PARENT => $serializedParent,
             self::KEY_LOCATOR => $elementIdentifier->getLocator(),
-            self::KEY_POSITION => $elementIdentifier->getOrdinalPosition(),
         ];
+
+        if (null !== $serializedParent) {
+            $data[self::KEY_PARENT] = $serializedParent;
+        }
+
+        $ordinalPosition = $elementIdentifier->getOrdinalPosition();
+        if (null !== $ordinalPosition) {
+            $data[self::KEY_POSITION] = $ordinalPosition;
+        }
 
         if ($elementIdentifier instanceof AttributeIdentifierInterface) {
             $data[self::KEY_ATTRIBUTE] = $elementIdentifier->getAttributeName();
