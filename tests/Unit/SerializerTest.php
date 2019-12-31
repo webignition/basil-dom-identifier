@@ -29,23 +29,18 @@ class SerializerTest extends \PHPUnit\Framework\TestCase
             'empty' => [
                 'elementIdentifier' => new ElementIdentifier(''),
                 'expectedData' => [
-                    Serializer::KEY_PARENT => null,
                     Serializer::KEY_LOCATOR => '',
-                    Serializer::KEY_POSITION => null,
                 ],
             ],
             'element selector' => [
                 'elementIdentifier' => new ElementIdentifier('.selector'),
                 'expectedData' => [
-                    Serializer::KEY_PARENT => null,
                     Serializer::KEY_LOCATOR => '.selector',
-                    Serializer::KEY_POSITION => null,
                 ],
             ],
             'element selector with ordinal position' => [
                 'elementIdentifier' => new ElementIdentifier('.selector', 3),
                 'expectedData' => [
-                    Serializer::KEY_PARENT => null,
                     Serializer::KEY_LOCATOR => '.selector',
                     Serializer::KEY_POSITION => 3,
                 ],
@@ -53,16 +48,13 @@ class SerializerTest extends \PHPUnit\Framework\TestCase
             'attribute selector' => [
                 'elementIdentifier' => new AttributeIdentifier('.selector', 'attribute_name'),
                 'expectedData' => [
-                    Serializer::KEY_PARENT => null,
                     Serializer::KEY_LOCATOR => '.selector',
-                    Serializer::KEY_POSITION => null,
                     Serializer::KEY_ATTRIBUTE => 'attribute_name',
                 ],
             ],
             'attribute selector with ordinal position' => [
                 'elementIdentifier' => new AttributeIdentifier('.selector', 'attribute_name', 3),
                 'expectedData' => [
-                    Serializer::KEY_PARENT => null,
                     Serializer::KEY_LOCATOR => '.selector',
                     Serializer::KEY_POSITION => 3,
                     Serializer::KEY_ATTRIBUTE => 'attribute_name',
@@ -74,13 +66,10 @@ class SerializerTest extends \PHPUnit\Framework\TestCase
                         new ElementIdentifier('.parent')
                     ),
                 'expectedData' => [
-                    Serializer::KEY_PARENT => [
-                        Serializer::KEY_PARENT => null,
-                        Serializer::KEY_LOCATOR => '.parent',
-                        Serializer::KEY_POSITION => null,
-                    ],
                     Serializer::KEY_LOCATOR => '.child',
-                    Serializer::KEY_POSITION => null,
+                    Serializer::KEY_PARENT => [
+                        Serializer::KEY_LOCATOR => '.parent',
+                    ],
                 ],
             ],
             'grandparent > parent > child' => [
@@ -92,17 +81,13 @@ class SerializerTest extends \PHPUnit\Framework\TestCase
                             )
                     ),
                 'expectedData' => [
-                    Serializer::KEY_PARENT => [
-                        Serializer::KEY_PARENT => [
-                            Serializer::KEY_PARENT => null,
-                            Serializer::KEY_LOCATOR => '.grandparent',
-                            Serializer::KEY_POSITION => null,
-                        ],
-                        Serializer::KEY_LOCATOR => '.parent',
-                        Serializer::KEY_POSITION => null,
-                    ],
                     Serializer::KEY_LOCATOR => '.child',
-                    Serializer::KEY_POSITION => null,
+                    Serializer::KEY_PARENT => [
+                        Serializer::KEY_LOCATOR => '.parent',
+                        Serializer::KEY_PARENT => [
+                            Serializer::KEY_LOCATOR => '.grandparent',
+                        ],
+                    ],
                 ],
             ],
         ];

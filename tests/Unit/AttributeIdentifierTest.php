@@ -23,9 +23,7 @@ class AttributeIdentifierTest extends \PHPUnit\Framework\TestCase
     {
         $this->assertSame(
             [
-                Serializer::KEY_PARENT => null,
                 Serializer::KEY_LOCATOR => '.selector',
-                Serializer::KEY_POSITION => null,
                 Serializer::KEY_ATTRIBUTE => 'attribute_name',
             ],
             (new AttributeIdentifier('.selector', 'attribute_name'))->jsonSerialize()

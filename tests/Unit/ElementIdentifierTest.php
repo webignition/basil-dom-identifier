@@ -116,9 +116,7 @@ class ElementIdentifierTest extends \PHPUnit\Framework\TestCase
     {
         $this->assertSame(
             [
-                Serializer::KEY_PARENT => null,
                 Serializer::KEY_LOCATOR => '.selector',
-                Serializer::KEY_POSITION => null,
             ],
             (new ElementIdentifier('.selector'))->jsonSerialize()
         );
