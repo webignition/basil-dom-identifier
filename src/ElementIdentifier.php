@@ -59,6 +59,23 @@ class ElementIdentifier extends ElementLocator implements ElementIdentifierInter
         return Serializer::fromJson($json);
     }
 
+    public static function fromAttributeIdentifier(ElementIdentifierInterface $identifier): ElementIdentifierInterface
+    {
+        $elementIdentifier = new ElementIdentifier(
+            $identifier->getLocator(),
+            $identifier->getOrdinalPosition()
+        );
+
+        $parentIdentifier = $identifier->getParentIdentifier();
+        if ($parentIdentifier instanceof ElementIdentifierInterface) {
+            $parentIdentifier = ElementIdentifier::fromAttributeIdentifier($parentIdentifier);
+
+            $elementIdentifier = $elementIdentifier->withParentIdentifier($parentIdentifier);
+        }
+
+        return $elementIdentifier;
+    }
+
     public function __toString(): string
     {
         $string = '$' . parent::__toString();
