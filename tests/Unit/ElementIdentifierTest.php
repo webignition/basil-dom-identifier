@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace webignition\DomElementIdentifier\Tests\Unit;
 
+use webignition\DomElementIdentifier\AttributeIdentifier;
 use webignition\DomElementIdentifier\ElementIdentifier;
 use webignition\DomElementIdentifier\ElementIdentifierInterface;
 use webignition\DomElementIdentifier\Serializer;
@@ -130,5 +131,122 @@ class ElementIdentifierTest extends \PHPUnit\Framework\TestCase
                 Serializer::KEY_LOCATOR => '.selector',
             ]))
         );
+    }
+
+    /**
+     * @dataProvider fromAttributeIdentifierRemainsUnchangedDataProvider
+     */
+    public function testFromAttributeIdentifierRemainsUnchanged(ElementIdentifierInterface $identifier)
+    {
+        $this->assertEquals($identifier, ElementIdentifier::fromAttributeIdentifier($identifier));
+    }
+
+    public function fromAttributeIdentifierRemainsUnchangedDataProvider(): array
+    {
+        return [
+            'element identifier, no ordinal position, no parent' => [
+                'identifier' => new ElementIdentifier('.selector'),
+            ],
+            'element identifier, has ordinal position, no parent' => [
+                'identifier' => new ElementIdentifier('.selector', 3),
+            ],
+            'element identifier, no ordinal position, has parent with no ordinal position and no parents' => [
+                'identifier' => (new ElementIdentifier('.child'))
+                    ->withParentIdentifier(
+                        new ElementIdentifier('.parent')
+                    ),
+            ],
+            'element identifier, has ordinal position, has parent with ordinal position and no parents' => [
+                'identifier' => (new ElementIdentifier('.child', 3))
+                    ->withParentIdentifier(
+                        new ElementIdentifier('.parent', 4)
+                    ),
+            ],
+            'element identifier, has ordinal position, has parent and grandparent with oridinal position' => [
+                'identifier' => (new ElementIdentifier('.child', 3))
+                    ->withParentIdentifier(
+                        (new ElementIdentifier('.parent', 4))
+                            ->withParentIdentifier(
+                                new ElementIdentifier('.grandparent', 5)
+                            )
+                    ),
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider fromAttributeIdentifierIsChangedDataProvider
+     */
+    public function testFromAttributeIdentifierIsChanged(
+        ElementIdentifierInterface $identifier,
+        ElementIdentifier $expectedIdentifier
+    ) {
+        $this->assertEquals($expectedIdentifier, ElementIdentifier::fromAttributeIdentifier($identifier));
+    }
+
+    public function fromAttributeIdentifierIsChangedDataProvider(): array
+    {
+        return [
+            'attribute identifier with no ordinal position, no parent' => [
+                'identifier' => new AttributeIdentifier('.selector', 'attribute_name'),
+                'expectedIdentifier' => new ElementIdentifier('.selector'),
+            ],
+            'attribute identifier has ordinal position, no parent' => [
+                'identifier' => new AttributeIdentifier('.selector', 'attribute_name', 2),
+                'expectedIdentifier' => new ElementIdentifier('.selector', 2),
+            ],
+            'attribute identifier has ordinal position, has element identifier parent with no ordinal position' => [
+                'identifier' => (new AttributeIdentifier('.child', 'child_attr', 3))
+                    ->withParentIdentifier(
+                        new ElementIdentifier('.parent')
+                    ),
+                'expectedIdentifier' => (new ElementIdentifier('.child', 3))
+                    ->withParentIdentifier(
+                        new ElementIdentifier('.parent')
+                    )
+            ],
+            'attribute identifier has ordinal position, has element identifier parent no ordinal position' => [
+                'identifier' => (new AttributeIdentifier('.child', 'child_attr', 4))
+                    ->withParentIdentifier(
+                        new ElementIdentifier('.parent', 5)
+                    ),
+                'expectedIdentifier' => (new ElementIdentifier('.child', 4))
+                    ->withParentIdentifier(
+                        new ElementIdentifier('.parent', 5)
+                    )
+            ],
+            'attribute identifier, has element identifier parent with attribute identifier grandparent' => [
+                'identifier' => (new AttributeIdentifier('.child', 'child_attr'))
+                    ->withParentIdentifier(
+                        (new ElementIdentifier('.parent'))
+                            ->withParentIdentifier(
+                                new AttributeIdentifier('.grandparent', 'grandparent_attr')
+                            )
+                    ),
+                'expectedIdentifier' => (new ElementIdentifier('.child'))
+                    ->withParentIdentifier(
+                        (new ElementIdentifier('.parent'))
+                            ->withParentIdentifier(
+                                new ElementIdentifier('.grandparent')
+                            )
+                    )
+            ],
+            'attribute identifier, has attribute identifier parent with attribute identifier grandparent' => [
+                'identifier' => (new AttributeIdentifier('.child', 'child_attr'))
+                    ->withParentIdentifier(
+                        (new AttributeIdentifier('.parent', 'parent_attr'))
+                            ->withParentIdentifier(
+                                new AttributeIdentifier('.grandparent', 'grandparent_attr')
+                            )
+                    ),
+                'expectedIdentifier' => (new ElementIdentifier('.child'))
+                    ->withParentIdentifier(
+                        (new ElementIdentifier('.parent'))
+                            ->withParentIdentifier(
+                                new ElementIdentifier('.grandparent')
+                            )
+                    )
+            ],
+        ];
     }
 }

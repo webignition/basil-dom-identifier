@@ -25,5 +25,7 @@ interface ElementIdentifierInterface extends ElementLocatorInterface, \JsonSeria
      */
     public static function fromJson(string $json): ElementIdentifierInterface;
 
+    public static function fromAttributeIdentifier(ElementIdentifierInterface $identifier): ElementIdentifierInterface;
+
     public function __toString(): string;
 }
