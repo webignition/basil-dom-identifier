@@ -61,7 +61,7 @@ class AttributeIdentifierTest extends \PHPUnit\Framework\TestCase
                     ->withParentIdentifier(
                         new ElementIdentifier('.parent')
                     ),
-                'expectedString' => '{{ $".parent" }} $".selector":7.attribute_name',
+                'expectedString' => '$"{{ $".parent" }} .selector":7.attribute_name',
             ],
         ];
     }

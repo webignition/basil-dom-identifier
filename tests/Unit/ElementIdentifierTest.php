@@ -104,11 +104,21 @@ class ElementIdentifierTest extends \PHPUnit\Framework\TestCase
                 'expectedString' => '$".selector":3',
             ],
             'css selector with parent' => [
-                'locator' => (new ElementIdentifier('.selector'))
+                'locator' => (new ElementIdentifier('.child'))
                     ->withParentIdentifier(
                         new ElementIdentifier('.parent')
                     ),
-                'expectedString' => '{{ $".parent" }} $".selector"',
+                'expectedString' => '$"{{ $".parent" }} .child"',
+            ],
+            'css selector with parent and grandparent' => [
+                'locator' => (new ElementIdentifier('.child'))
+                    ->withParentIdentifier(
+                        (new ElementIdentifier('.parent'))
+                            ->withParentIdentifier(
+                                new ElementIdentifier('.grandparent')
+                            )
+                    ),
+                'expectedString' => '$"{{ $"{{ $".grandparent" }} .parent" }} .child"',
             ],
         ];
     }
