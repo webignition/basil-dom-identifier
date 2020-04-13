@@ -108,7 +108,7 @@ class ElementIdentifierTest extends \PHPUnit\Framework\TestCase
                     ->withParentIdentifier(
                         new ElementIdentifier('.parent')
                     ),
-                'expectedString' => '$"{{ $".parent" }} .child"',
+                'expectedString' => '$".parent" >> $".child"',
             ],
             'css selector with parent and grandparent' => [
                 'locator' => (new ElementIdentifier('.child'))
@@ -118,7 +118,7 @@ class ElementIdentifierTest extends \PHPUnit\Framework\TestCase
                                 new ElementIdentifier('.grandparent')
                             )
                     ),
-                'expectedString' => '$"{{ $"{{ $".grandparent" }} .parent" }} .child"',
+                'expectedString' => '$".grandparent" >> $".parent" >> $".child"',
             ],
         ];
     }

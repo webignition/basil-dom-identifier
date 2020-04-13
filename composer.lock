@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "01ea74beb7ef72ac420bec8a55324791",
+    "content-hash": "62c0cb69292a8dab006b220e00acce65",
     "packages": [
         {
             "name": "webignition/php-dom-element-locator",
-            "version": "0.2",
+            "version": "0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/webignition/php-dom-element-locator.git",
-                "reference": "5f86d51d0a40fc7e8817d229adfbd33106010a63"
+                "reference": "db0e5947250402fd8df5187a3fe8d754723e1297"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webignition/php-dom-element-locator/zipball/5f86d51d0a40fc7e8817d229adfbd33106010a63",
-                "reference": "5f86d51d0a40fc7e8817d229adfbd33106010a63",
+                "url": "https://api.github.com/repos/webignition/php-dom-element-locator/zipball/db0e5947250402fd8df5187a3fe8d754723e1297",
+                "reference": "db0e5947250402fd8df5187a3fe8d754723e1297",
                 "shasum": ""
             },
             "require": {
@@ -46,7 +46,7 @@
             ],
             "description": "Model for identifying the location of an element within a DOM",
             "homepage": "https://github.com/webignition/php-dom-element-locator",
-            "time": "2019-12-18T15:59:38+00:00"
+            "time": "2020-04-13T14:54:45+00:00"
         }
     ],
     "packages-dev": [
@@ -1715,7 +1715,9 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=7.2"
+        "php": ">=7.2",
+        "ext-json": "*"
     },
-    "platform-dev": []
+    "platform-dev": [],
+    "plugin-api-version": "1.1.0"
 }

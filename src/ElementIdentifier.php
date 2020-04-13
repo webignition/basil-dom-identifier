@@ -81,8 +81,7 @@ class ElementIdentifier extends ElementLocator implements ElementIdentifierInter
         $string = '$' . parent::__toString();
 
         if (null !== $this->parentIdentifier) {
-            $prefix = '$"';
-            $string = $prefix . '{{ ' . (string) $this->parentIdentifier . ' }} ' . substr($string, strlen($prefix));
+            $string = (string) $this->parentIdentifier . ' >> ' . $string;
         }
 
         return $string;
