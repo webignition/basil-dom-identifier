@@ -6,7 +6,7 @@ namespace webignition\DomElementIdentifier;
 
 class AttributeIdentifier extends ElementIdentifier implements AttributeIdentifierInterface
 {
-    private $attributeName = null;
+    private string $attributeName = '';
 
     public function __construct(string $locator, string $attributeName, ?int $ordinalPosition = null)
     {

@@ -6,7 +6,7 @@ namespace webignition\DomElementIdentifier;
 
 class InvalidJsonException extends \Exception
 {
-    private $json;
+    private string $json;
 
     public function __construct(string $json)
     {
