@@ -8,10 +8,7 @@ use webignition\DomElementLocator\ElementLocator;
 
 class ElementIdentifier extends ElementLocator implements ElementIdentifierInterface
 {
-    /**
-     * @var ElementIdentifierInterface
-     */
-    private $parentIdentifier;
+    private ?ElementIdentifierInterface $parentIdentifier = null;
 
     public function getParentIdentifier(): ?ElementIdentifierInterface
     {
