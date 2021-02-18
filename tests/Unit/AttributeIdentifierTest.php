@@ -11,7 +11,7 @@ use webignition\DomElementIdentifier\Serializer;
 
 class AttributeIdentifierTest extends \PHPUnit\Framework\TestCase
 {
-    public function testGetAttributeName()
+    public function testGetAttributeName(): void
     {
         $attributeName = 'attribute_name';
         $identifier = new AttributeIdentifier('.selector', $attributeName);
@@ -19,7 +19,7 @@ class AttributeIdentifierTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($attributeName, $identifier->getAttributeName());
     }
 
-    public function testJsonSerialize()
+    public function testJsonSerialize(): void
     {
         $this->assertSame(
             [
@@ -30,7 +30,7 @@ class AttributeIdentifierTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function testFromJson()
+    public function testFromJson(): void
     {
         $this->assertEquals(
             new AttributeIdentifier('.selector', 'attribute_name'),
@@ -44,11 +44,14 @@ class AttributeIdentifierTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider toStringDataProvider
      */
-    public function testToString(AttributeIdentifierInterface $domIdentifier, string $expectedString)
+    public function testToString(AttributeIdentifierInterface $domIdentifier, string $expectedString): void
     {
         $this->assertSame($expectedString, (string) $domIdentifier);
     }
 
+    /**
+     * @return array[]
+     */
     public function toStringDataProvider(): array
     {
         return [

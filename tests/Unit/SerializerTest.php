@@ -18,11 +18,14 @@ class SerializerTest extends \PHPUnit\Framework\TestCase
      * @param ElementIdentifierInterface $elementIdentifier
      * @param array<mixed> $expectedData
      */
-    public function testToArray(ElementIdentifierInterface $elementIdentifier, array $expectedData)
+    public function testToArray(ElementIdentifierInterface $elementIdentifier, array $expectedData): void
     {
         $this->assertSame($expectedData, Serializer::toArray($elementIdentifier));
     }
 
+    /**
+     * @return array[]
+     */
     public function toArrayDataProvider(): array
     {
         return [
@@ -96,11 +99,14 @@ class SerializerTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider deserializeFromJsonDataProvider
      */
-    public function testDeserializeFromJsonSuccess(string $json, ElementIdentifierInterface $expectedIdentifier)
+    public function testDeserializeFromJsonSuccess(string $json, ElementIdentifierInterface $expectedIdentifier): void
     {
         $this->assertEquals($expectedIdentifier, Serializer::fromJson($json));
     }
 
+    /**
+     * @return array[]
+     */
     public function deserializeFromJsonDataProvider(): array
     {
         return [
@@ -168,13 +174,16 @@ class SerializerTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider deserializeFromJsonReturnsNullDataProvider
      */
-    public function testDeserializeFromJsonReturnsNull(string $json)
+    public function testDeserializeFromJsonReturnsNull(string $json): void
     {
         $this->expectExceptionObject(new InvalidJsonException($json));
 
         ElementIdentifier::fromJson($json);
     }
 
+    /**
+     * @return array[]
+     */
     public function deserializeFromJsonReturnsNullDataProvider(): array
     {
         return [

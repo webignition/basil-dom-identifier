@@ -11,7 +11,7 @@ use webignition\DomElementIdentifier\Serializer;
 
 class ElementIdentifierTest extends \PHPUnit\Framework\TestCase
 {
-    public function testParentIdentifier()
+    public function testParentIdentifier(): void
     {
         $identifier = new ElementIdentifier('.selector');
         $this->assertNull($identifier->getParentIdentifier());
@@ -28,11 +28,14 @@ class ElementIdentifierTest extends \PHPUnit\Framework\TestCase
      * @param ElementIdentifierInterface $elementIdentifier
      * @param array<int, ElementIdentifierInterface> $expectedScope
      */
-    public function testGetScope(ElementIdentifierInterface $elementIdentifier, array $expectedScope)
+    public function testGetScope(ElementIdentifierInterface $elementIdentifier, array $expectedScope): void
     {
         $this->assertEquals($expectedScope, $elementIdentifier->getScope());
     }
 
+    /**
+     * @return array[]
+     */
     public function getScopeDataProvider(): array
     {
         return [
@@ -71,11 +74,14 @@ class ElementIdentifierTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider toStringDataProvider
      */
-    public function testToString(ElementIdentifierInterface $domIdentifier, string $expectedString)
+    public function testToString(ElementIdentifierInterface $domIdentifier, string $expectedString): void
     {
         $this->assertSame($expectedString, (string) $domIdentifier);
     }
 
+    /**
+     * @return array[]
+     */
     public function toStringDataProvider(): array
     {
         return [
@@ -123,7 +129,7 @@ class ElementIdentifierTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
-    public function testJsonSerialize()
+    public function testJsonSerialize(): void
     {
         $this->assertSame(
             [
@@ -133,7 +139,7 @@ class ElementIdentifierTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function testFromJson()
+    public function testFromJson(): void
     {
         $this->assertEquals(
             new ElementIdentifier('.selector'),
@@ -146,11 +152,14 @@ class ElementIdentifierTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider fromAttributeIdentifierRemainsUnchangedDataProvider
      */
-    public function testFromAttributeIdentifierRemainsUnchanged(ElementIdentifierInterface $identifier)
+    public function testFromAttributeIdentifierRemainsUnchanged(ElementIdentifierInterface $identifier): void
     {
         $this->assertEquals($identifier, ElementIdentifier::fromAttributeIdentifier($identifier));
     }
 
+    /**
+     * @return array[]
+     */
     public function fromAttributeIdentifierRemainsUnchangedDataProvider(): array
     {
         return [
@@ -190,10 +199,13 @@ class ElementIdentifierTest extends \PHPUnit\Framework\TestCase
     public function testFromAttributeIdentifierIsChanged(
         ElementIdentifierInterface $identifier,
         ElementIdentifier $expectedIdentifier
-    ) {
+    ): void {
         $this->assertEquals($expectedIdentifier, ElementIdentifier::fromAttributeIdentifier($identifier));
     }
 
+    /**
+     * @return array[]
+     */
     public function fromAttributeIdentifierIsChangedDataProvider(): array
     {
         return [
