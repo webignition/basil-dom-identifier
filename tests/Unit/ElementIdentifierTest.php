@@ -25,7 +25,6 @@ class ElementIdentifierTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider getScopeDataProvider
      *
-     * @param ElementIdentifierInterface $elementIdentifier
      * @param array<int, ElementIdentifierInterface> $expectedScope
      */
     public function testGetScope(ElementIdentifierInterface $elementIdentifier, array $expectedScope): void

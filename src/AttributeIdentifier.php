@@ -15,6 +15,11 @@ class AttributeIdentifier extends ElementIdentifier implements AttributeIdentifi
         $this->attributeName = $attributeName;
     }
 
+    public function __toString(): string
+    {
+        return parent::__toString() . '.' . $this->attributeName;
+    }
+
     public function getAttributeName(): string
     {
         return $this->attributeName;
@@ -26,10 +31,5 @@ class AttributeIdentifier extends ElementIdentifier implements AttributeIdentifi
     public function jsonSerialize(): array
     {
         return Serializer::toArray($this);
-    }
-
-    public function __toString(): string
-    {
-        return parent::__toString() . '.' . $this->attributeName;
     }
 }

@@ -15,7 +15,6 @@ class SerializerTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider toArrayDataProvider
      *
-     * @param ElementIdentifierInterface $elementIdentifier
      * @param array<mixed> $expectedData
      */
     public function testToArray(ElementIdentifierInterface $elementIdentifier, array $expectedData): void

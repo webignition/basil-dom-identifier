@@ -10,6 +10,17 @@ class ElementIdentifier extends ElementLocator implements ElementIdentifierInter
 {
     private ?ElementIdentifierInterface $parentIdentifier = null;
 
+    public function __toString(): string
+    {
+        $string = '$' . parent::__toString();
+
+        if (null !== $this->parentIdentifier) {
+            $string = (string) $this->parentIdentifier . ' >> ' . $string;
+        }
+
+        return $string;
+    }
+
     public function getParentIdentifier(): ?ElementIdentifierInterface
     {
         return $this->parentIdentifier;
@@ -45,10 +56,6 @@ class ElementIdentifier extends ElementLocator implements ElementIdentifierInter
     }
 
     /**
-     * @param string $json
-     *
-     * @return ElementIdentifierInterface
-     *
      * @throws InvalidJsonException
      */
     public static function fromJson(string $json): ElementIdentifierInterface
@@ -71,16 +78,5 @@ class ElementIdentifier extends ElementLocator implements ElementIdentifierInter
         }
 
         return $elementIdentifier;
-    }
-
-    public function __toString(): string
-    {
-        $string = '$' . parent::__toString();
-
-        if (null !== $this->parentIdentifier) {
-            $string = (string) $this->parentIdentifier . ' >> ' . $string;
-        }
-
-        return $string;
     }
 }

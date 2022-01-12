@@ -12,8 +12,6 @@ class Serializer
     public const KEY_ATTRIBUTE = 'attribute';
 
     /**
-     * @param ElementIdentifierInterface $elementIdentifier
-     *
      * @return array<mixed>
      */
     public static function toArray(ElementIdentifierInterface $elementIdentifier): array
@@ -45,10 +43,6 @@ class Serializer
     }
 
     /**
-     * @param string $json
-     *
-     * @return ElementIdentifierInterface
-     *
      * @throws InvalidJsonException
      */
     public static function fromJson(string $json): ElementIdentifierInterface
