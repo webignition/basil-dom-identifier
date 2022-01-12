@@ -8,7 +8,10 @@ use webignition\DomElementLocator\ElementLocatorInterface;
 
 interface ElementIdentifierInterface extends ElementLocatorInterface, \JsonSerializable
 {
+    public function __toString(): string;
+
     public function getParentIdentifier(): ?ElementIdentifierInterface;
+
     public function withParentIdentifier(ElementIdentifierInterface $parentIdentifier): ElementIdentifierInterface;
 
     /**
@@ -17,15 +20,9 @@ interface ElementIdentifierInterface extends ElementLocatorInterface, \JsonSeria
     public function getScope(): array;
 
     /**
-     * @param string $json
-     *
      * @throws InvalidJsonException
-     *
-     * @return ElementIdentifierInterface
      */
     public static function fromJson(string $json): ElementIdentifierInterface;
 
     public static function fromAttributeIdentifier(ElementIdentifierInterface $identifier): ElementIdentifierInterface;
-
-    public function __toString(): string;
 }

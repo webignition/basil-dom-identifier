@@ -25,7 +25,6 @@ class ElementIdentifierTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider getScopeDataProvider
      *
-     * @param ElementIdentifierInterface $elementIdentifier
      * @param array<int, ElementIdentifierInterface> $expectedScope
      */
     public function testGetScope(ElementIdentifierInterface $elementIdentifier, array $expectedScope): void
@@ -34,7 +33,7 @@ class ElementIdentifierTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @return array[]
+     * @return array<mixed>
      */
     public function getScopeDataProvider(): array
     {
@@ -80,7 +79,7 @@ class ElementIdentifierTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @return array[]
+     * @return array<mixed>
      */
     public function toStringDataProvider(): array
     {
@@ -158,7 +157,7 @@ class ElementIdentifierTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @return array[]
+     * @return array<mixed>
      */
     public function fromAttributeIdentifierRemainsUnchangedDataProvider(): array
     {
@@ -204,7 +203,7 @@ class ElementIdentifierTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @return array[]
+     * @return array<mixed>
      */
     public function fromAttributeIdentifierIsChangedDataProvider(): array
     {

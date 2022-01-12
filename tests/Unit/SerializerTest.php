@@ -15,7 +15,6 @@ class SerializerTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider toArrayDataProvider
      *
-     * @param ElementIdentifierInterface $elementIdentifier
      * @param array<mixed> $expectedData
      */
     public function testToArray(ElementIdentifierInterface $elementIdentifier, array $expectedData): void
@@ -24,7 +23,7 @@ class SerializerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @return array[]
+     * @return array<mixed>
      */
     public function toArrayDataProvider(): array
     {
@@ -105,7 +104,7 @@ class SerializerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @return array[]
+     * @return array<mixed>
      */
     public function deserializeFromJsonDataProvider(): array
     {
@@ -182,7 +181,7 @@ class SerializerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @return array[]
+     * @return array<mixed>
      */
     public function deserializeFromJsonReturnsNullDataProvider(): array
     {
