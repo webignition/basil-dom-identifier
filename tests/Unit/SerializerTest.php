@@ -23,7 +23,7 @@ class SerializerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @return array[]
+     * @return array<mixed>
      */
     public function toArrayDataProvider(): array
     {
@@ -104,7 +104,7 @@ class SerializerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @return array[]
+     * @return array<mixed>
      */
     public function deserializeFromJsonDataProvider(): array
     {
@@ -181,7 +181,7 @@ class SerializerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @return array[]
+     * @return array<mixed>
      */
     public function deserializeFromJsonReturnsNullDataProvider(): array
     {

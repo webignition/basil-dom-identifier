@@ -33,7 +33,7 @@ class ElementIdentifierTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @return array[]
+     * @return array<mixed>
      */
     public function getScopeDataProvider(): array
     {
@@ -79,7 +79,7 @@ class ElementIdentifierTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @return array[]
+     * @return array<mixed>
      */
     public function toStringDataProvider(): array
     {
@@ -157,7 +157,7 @@ class ElementIdentifierTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @return array[]
+     * @return array<mixed>
      */
     public function fromAttributeIdentifierRemainsUnchangedDataProvider(): array
     {
@@ -203,7 +203,7 @@ class ElementIdentifierTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @return array[]
+     * @return array<mixed>
      */
     public function fromAttributeIdentifierIsChangedDataProvider(): array
     {
